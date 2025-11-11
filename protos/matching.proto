@@ -1,0 +1,33 @@
+syntax = "proto3";
+package lastmile.matching;
+option go_package = "lastmile/matchingpb";
+
+import "google/protobuf/empty.proto";
+
+message MatchCandidate {
+  string driver_id = 1;
+  string rider_id = 2;
+  string station_id = 3;
+  int64 eta_ms = 4;
+  string destination = 5;
+}
+
+message MatchRequest {
+  string station_id = 1;
+  string driver_id = 2;
+  repeated string rider_ids = 3;
+  int64 ts = 4;
+}
+
+message MatchResponse {
+  bool accepted = 1;
+  string trip_id = 2;
+  string reason = 3;
+}
+
+service MatchingService {
+  rpc FindMatches(MatchRequest) returns (MatchResponse);
+  // streaming API for proposals and responses (optional)
+  rpc StreamMatches(stream MatchRequest) returns (stream MatchResponse);
+  rpc Health(google.protobuf.Empty) returns (MatchResponse);
+}

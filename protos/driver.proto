@@ -1,0 +1,61 @@
+syntax = "proto3";
+package lastmile.driver;
+option go_package = "lastmile/driverpb";
+
+import "google/protobuf/empty.proto";
+
+message Route {
+  string route_id = 1;
+  repeated string station_ids = 2;
+  repeated string waypoints = 3; // "lat,lng" strings or polyline
+}
+
+message DriverProfile {
+  string driver_id = 1;
+  string user_id = 2;
+  string name = 3;
+  string phone = 4;
+  string vehicle_no = 5;
+}
+
+message RegisterDriverRequest {
+  DriverProfile profile = 1;
+}
+
+message RegisterDriverResponse {
+  string driver_id = 1;
+  bool ok = 2;
+}
+
+message DriverRouteRequest {
+  string driver_id = 1;
+  Route route = 2;
+  string destination = 3;
+  int32 available_seats = 4;
+}
+
+message DriverRouteResponse {
+  bool ok = 1;
+}
+
+message LocationUpdate {
+  string driver_id = 1;
+  double lat = 2;
+  double lng = 3;
+  int64 timestamp = 4;
+  string status = 5; // e.g., "enroute", "at_station", "pickup", "completed"
+  string station_id = 6; // optional if near a station
+  int32 available_seats = 7;
+  string destination = 8;
+  int64 eta_ms = 9;
+}
+
+message Ack { bool ok = 1; }
+
+service DriverService {
+  rpc RegisterDriver(RegisterDriverRequest) returns (RegisterDriverResponse);
+  rpc UpdateRoute(DriverRouteRequest) returns (DriverRouteResponse);
+  // streaming locations from driver -> server
+  rpc StreamLocation(stream LocationUpdate) returns (Ack);
+  rpc Health(google.protobuf.Empty) returns (Ack);
+}

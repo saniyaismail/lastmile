@@ -1,0 +1,11 @@
+grpcio
+grpcio-tools
+protobuf
+aiohttp
+pika
+psycopg2-binary
+SQLAlchemy
+alembic
+python-dotenv
+aio-pika
+uvloop

@@ -1,0 +1,22 @@
+syntax = "proto3";
+package lastmile.notification;
+option go_package = "lastmile/notificationpb";
+
+import "google/protobuf/empty.proto";
+
+message Notification {
+  string to_id = 1; // rider_id or driver_id
+  string channel = 2; // "push", "sms", "email"
+  string title = 3;
+  string body = 4;
+  string meta = 5; // JSON string for extra data
+  int64 ts = 6;
+}
+
+message NotifyAck { bool ok = 1; string error = 2; }
+
+service NotificationService {
+  rpc Send(Notification) returns (NotifyAck);
+  rpc StreamNotifications(stream Notification) returns (stream NotifyAck);
+  rpc Health(google.protobuf.Empty) returns (NotifyAck);
+}

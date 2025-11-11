@@ -1,0 +1,29 @@
+syntax = "proto3";
+package lastmile.location;
+option go_package = "lastmile/locationpb";
+
+import "google/protobuf/empty.proto";
+
+message DriverLocation {
+  string driver_id = 1;
+  double lat = 2;
+  double lng = 3;
+  int64 ts = 4;
+  string station_id = 5;
+  int32 available_seats = 6;
+  int64 eta_ms = 7;
+  string destination = 8;
+}
+
+message ProximityEvent {
+  string driver_id = 1;
+  string station_id = 2;
+  double distance_m = 3;
+  int64 ts = 4;
+}
+
+service LocationService {
+  rpc ReportLocation(DriverLocation) returns (google.protobuf.Empty);
+  rpc StreamProximity(stream DriverLocation) returns (stream ProximityEvent);
+  rpc Health(google.protobuf.Empty) returns (google.protobuf.Empty);
+}

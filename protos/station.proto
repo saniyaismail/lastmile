@@ -1,0 +1,24 @@
+syntax = "proto3";
+package lastmile.station;
+option go_package = "lastmile/stationpb";
+
+import "google/protobuf/empty.proto";
+
+message Station {
+  string station_id = 1;
+  string name = 2;
+  double lat = 3;
+  double lng = 4;
+  repeated string nearby_places = 5; // ids or names
+}
+
+message StationRequest { string station_id = 1; }
+message StationListRequest { repeated string station_ids = 1; }
+message StationResponse { Station station = 1; }
+message StationListResponse { repeated Station stations = 1; }
+
+service StationService {
+  rpc GetStation(StationRequest) returns (StationResponse);
+  rpc ListStations(StationListRequest) returns (StationListResponse);
+  rpc Health(google.protobuf.Empty) returns (StationResponse);
+}

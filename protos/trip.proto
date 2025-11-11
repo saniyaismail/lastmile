@@ -1,0 +1,33 @@
+syntax = "proto3";
+package lastmile.trip;
+option go_package = "lastmile/trippb";
+
+import "google/protobuf/empty.proto";
+
+message Trip {
+  string trip_id = 1;
+  string driver_id = 2;
+  repeated string rider_ids = 3;
+  string origin_station = 4;
+  string destination = 5;
+  string status = 6; // scheduled, active, completed, canceled
+  int64 start_time = 7;
+  int64 end_time = 8;
+  int32 seats_reserved = 9;
+}
+
+message CreateTripRequest { Trip trip = 1; }
+message CreateTripResponse { string trip_id = 1; bool ok = 2; string reason = 3; }
+
+message UpdateTripRequest { Trip trip = 1; }
+message UpdateTripResponse { bool ok = 1; }
+
+message GetTripRequest { string trip_id = 1; }
+message GetTripResponse { Trip trip = 1; }
+
+service TripService {
+  rpc CreateTrip(CreateTripRequest) returns (CreateTripResponse);
+  rpc UpdateTrip(UpdateTripRequest) returns (UpdateTripResponse);
+  rpc GetTrip(GetTripRequest) returns (GetTripResponse);
+  rpc Health(google.protobuf.Empty) returns (CreateTripResponse);
+}
