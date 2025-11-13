@@ -1,0 +1,32 @@
+syntax = "proto3";
+package lastmile.rider;
+option go_package = "lastmile/riderpb";
+
+import "google/protobuf/empty.proto";
+
+message RiderProfile {
+  string rider_id = 1;
+  string user_id = 2;
+  string name = 3;
+  string phone = 4;
+}
+
+message RegisterRiderRequest { RiderProfile profile = 1; }
+message RegisterRiderResponse { string rider_id = 1; bool ok = 2; }
+
+message RiderRequest {
+  string rider_id = 1;
+  string station_id = 2;
+  int64 arrival_time = 3; // unix ms
+  string destination = 4;
+  string request_id = 5;
+}
+
+message RiderResponse { string request_id = 1; bool ok = 2; }
+
+service RiderService {
+  rpc RegisterRider(RegisterRiderRequest) returns (RegisterRiderResponse);
+  rpc RequestPickup(RiderRequest) returns (RiderResponse);
+  rpc TrackRide(RiderRequest) returns (RiderResponse);
+  rpc Health(google.protobuf.Empty) returns (RiderResponse);
+}

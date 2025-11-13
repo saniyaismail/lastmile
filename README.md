@@ -1,1 +1,0 @@
-# LastMile project
