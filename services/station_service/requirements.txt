@@ -1,0 +1,8 @@
+grpcio
+grpcio-tools
+protobuf
+SQLAlchemy
+psycopg2-binary
+geoalchemy2
+geoalchemy2[psycopg2]
+
