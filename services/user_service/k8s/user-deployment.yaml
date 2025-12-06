@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+      - name: user-service
+        image: your-registry/lastmile-user:0.1
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://lastmile:lastmile@postgres:5432/lastmile"
+        ports:
+        - containerPort: 50058
+        readinessProbe:
+          tcpSocket:
+            port: 50058
+          initialDelaySeconds: 5
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+spec:
+  selector:
+    app: user-service
+  ports:
+  - port: 50058
+    targetPort: 50058

@@ -1,0 +1,5 @@
+### FILE: services/notification_service/requirements.txt
+grpcio
+grpcio-tools
+protobuf
+pika

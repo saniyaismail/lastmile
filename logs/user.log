@@ -1,0 +1,2 @@
+INFO:user_service:UserService DB initialized.
+INFO:user_service:UserService running on port 50058
