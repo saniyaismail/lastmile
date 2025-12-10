@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: trip-service
+  namespace: lastmile
 spec:
   replicas: 1
   selector:
@@ -14,7 +15,7 @@ spec:
     spec:
       containers:
       - name: trip-service
-        image: your-registry/lastmile-trip:0.1
+        image: saniyaismail999/lastmile-trip:1.0
         env:
         - name: DATABASE_URL
           value: "postgresql://lastmile:lastmile@postgres:5432/lastmile"
@@ -22,16 +23,12 @@ spec:
           value: "amqp://guest:guest@rabbitmq:5672/"
         ports:
         - containerPort: 50055
-        readinessProbe:
-          tcpSocket:
-            port: 50055
-          initialDelaySeconds: 5
-          periodSeconds: 10
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: trip-service
+  namespace: lastmile
 spec:
   selector:
     app: trip-service

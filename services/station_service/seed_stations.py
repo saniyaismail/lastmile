@@ -8,7 +8,7 @@ from services.station_service.models import Station as StationModel
 
 # NOTE: we'll include a small models file here to reuse in seed; if not available, we inline a minimal insert.
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://lastmile:lastmile@localhost:5432/lastmile")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://lastmile:lastmile@postgres:5432/lastmile")
 
 # Simple inline insert if models not importable
 from sqlalchemy import text

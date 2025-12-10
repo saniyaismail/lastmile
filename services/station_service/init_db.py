@@ -6,7 +6,7 @@ import os
 from sqlalchemy import create_engine, text
 
 # change the name to postgres in app.py init.py n seed.py instead of localhost to have communication between the container, that is an alias that is used.
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://lastmile:lastmile@localhost:5432/lastmile")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://lastmile:lastmile@postgresql:5432/lastmile")
 
 def main():
     engine = create_engine(DATABASE_URL)
